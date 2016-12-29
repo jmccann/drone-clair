@@ -24,4 +24,4 @@ _testmain.go
 *.prof
 
 coverage.out
-drone-hipchat
+drone-clair
