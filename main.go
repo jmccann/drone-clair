@@ -24,7 +24,7 @@ func main() {
 		cli.StringFlag{
 			Name: "url",
 			Usage: "clair server URL",
-			EnvVar: "PLUGIN_URL",
+			EnvVar: "CLAIR_URL,PLUGIN_URL",
 		},
 		cli.StringFlag{
 			Name: "username",
@@ -41,6 +41,11 @@ func main() {
 			Usage: "docker image to scan with clair",
 			EnvVar: "PLUGIN_SCAN_IMAGE",
 		},
+		cli.StringFlag{
+			Name:   "ca_cert",
+			Usage:  "ca cert to trust",
+			EnvVar: "CLAIR_CA_CERT,PLUGIN_CA_CERT",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -51,13 +56,14 @@ func main() {
 func run(c *cli.Context) error {
 	logrus.WithFields(logrus.Fields{
 		"Revision": revision,
-	}).Info("Drone clair Plugin Version")
+	}).Info("Drone Clair Plugin Version")
 
 	plugin := Plugin{
 		Url:       c.String("url"),
 		Username:  c.String("username"),
 		Password:  c.String("password"),
 		ScanImage: c.String("scan_image"),
+		CaCert:    c.String("ca_cert"),
 	}
 
 	return plugin.Exec()
