@@ -1,63 +1,76 @@
 
-The Hipchat plugin sends build status messages to users and rooms. The below pipeline configuration demonstrates simple usage:
+The Clair plugin scans your docker image for security vulnerabilities. The below pipeline configuration demonstrates simple usage:
 
 ```yaml
 pipeline:
   clair:
-    image: Unikorn123/drone-clair
+    image: jmccann/drone-clair:1
     url: http://clair.company.com
     username: johndoe
     password: mysecret
     scan_image: python:2.7
 ```
 
-# Secrets
-
-The Hipchat plugin supports reading credentials from the Drone secret store. This is strongly recommended instead of storing credentials in the pipeline configuration in plain text.
+To verify https/ssl connections with a different CA certificate use `ca_cert`
 
 ```diff
 pipeline:
-  slack:
-    image: jmccann/drone-hipchat
-    room: my-room
--   auth_token: my-auth-token
+  clair:
+    image: jmccann/drone-clair:1
+    url: http://clair.company.com
+    username: johndoe
+    password: mysecret
+    scan_image: python:2.7
++   ca_cert: |
++     -----BEGIN CERTIFICATE-----
++     MII...
++     -----END CERTIFICATE-----
 ```
 
-The above `auth_token` Yaml attribute can be replaced with the `HIPCHAT_AUTH_TOKEN` secret environment variable.
+# Secrets
 
-Use the command line utility to add secrets to the store:
+The Clair plugin supports reading credentials from the Drone secret store. This is strongly recommended instead of storing credentials in the pipeline configuration in plain text.
 
-```nohighlight
-drone secret add --image=jmccann/drone-hipchat \
-    octocat/hello-world HIPCHAT_AUTH_TOKEN abcd1234
+```diff
+pipeline:
+  clair:
+    image: jmccann/drone-clair:1
+    url: http://clair.company.com
+-   username: johndoe
+-   password: mysecret
+    scan_image: python:2.7
 ```
 
-Don't forget to sign the Yaml after making changes:
-
-```nohighlight
-drone sign octocat/hello-world
-```
-
-Please see the [Drone documentation](http://readme.drone.io/0.5/secrets-with-plugins/) to learn more about secrets.
+The above `username` and `password` Yaml attributes can be replaced with the `DOCKER_USERNAME` and `DOCKER_PASSWORD` secret environment variables.
+Please see the Drone [documentation]({{< secret-link >}}) to learn more about secrets.
 
 # Secret Reference
 
-HIPCHAT_AUTH_TOKEN
-: HipChat V2 API token
+DOCKER_USERNAME
+: paired with `username` - The username to authenticate to the docker registry with
+
+DOCKER_PASSWORD
+: paired with `password` - The password to authenticate to the docker registry with
+
+CLAIR_URL
+: paired with `url` - Clair server URL
+
+CLAIR_CA_CERT
+: paired with `ca_cert` - The CA Cert to verify https with
 
 # Parameter Reference
 
 url
-: HipChat server URL, defaults to `https://api.hipchat.com`
+: Clair server URL
 
-auth_token
-: HipChat V2 API token; use a room or user token with the `Send Notification` scope
+username
+: Docker Registry username to download the `scan_image` from
 
-room
-: ID or URL encoded name of the room
+password
+: Docker Registry password to download the `scan_image` from
 
-from: drone
-: A label to be shown in addition to sender's name
+scan_image
+: The docker image to scan.  Supports Docker Hub or private repos.
 
-notify: false
-: Whether this message should trigger a user notification. See https://www.hipchat.com/docs/apiv2/method/private_message_user
+ca_cert
+: The CA Cert to verify https with
