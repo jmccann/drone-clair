@@ -20,12 +20,12 @@ type (
 
 func (p Plugin) Exec() error {
 	os.Setenv("CLAIR_ADDR", p.Url)
-	_, exist := os.LookupEnv("DOCKER_USERNAME")
-	if ! exist {
-		os.Setenv("DOCKER_USERNAME", p.Username)
+	_, exist := os.LookupEnv("DOCKER_USER")
+	if !exist {
+		os.Setenv("DOCKER_USER", p.Username)
 	}
 	_, exist = os.LookupEnv("DOCKER_PASSWORD")
-	if ! exist {
+	if !exist {
 		os.Setenv("DOCKER_PASSWORD", p.Password)
 	}
 
