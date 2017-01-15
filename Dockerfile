@@ -4,7 +4,7 @@
 #     go build
 #     docker build --rm=true -t jmccann/drone-clair .
 
-FROM alpine:3.3
+FROM alpine:3.4
 
 RUN apk update && \
   apk add \
