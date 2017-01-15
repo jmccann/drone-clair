@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/Sirupsen/logrus"
@@ -57,6 +58,20 @@ func run(c *cli.Context) error {
 	logrus.WithFields(logrus.Fields{
 		"Revision": revision,
 	}).Info("Drone Clair Plugin Version")
+
+	// Validate required values provided
+	if c.String("url") == "" {
+		return fmt.Errorf("Please provide the URL to your Clair server.")
+	}
+	if c.String("username") == "" {
+		return fmt.Errorf("Please provide the username to your Docker Registry.")
+	}
+	if c.String("password") == "" {
+		return fmt.Errorf("Please provide the password to your Docker Registry.")
+	}
+	if c.String("scan_image") == "" {
+		return fmt.Errorf("Please provide the image you want to scan.")
+	}
 
 	plugin := Plugin{
 		Url:       c.String("url"),
