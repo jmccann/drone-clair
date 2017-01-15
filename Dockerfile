@@ -1,8 +1,8 @@
 # Docker image for the Drone clair plugin
 #
-#     cd $GOPATH/src/github.com/Unikorn123/drone-clair
+#     cd $GOPATH/src/github.com/jmccann/drone-clair
 #     go build
-#     docker build --rm=true -t Unikorn123/drone-clair .
+#     docker build --rm=true -t jmccann/drone-clair .
 
 FROM alpine:3.3
 
