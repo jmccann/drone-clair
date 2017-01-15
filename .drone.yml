@@ -1,6 +1,6 @@
 workspace:
   base: /go
-  path: src/github.com/Unikorn123/drone-clair
+  path: src/github.com/jmccann/drone-clair
 
 pipeline:
   build:
