@@ -1,5 +1,17 @@
+---
+date: 2016-01-01T00:00:00+00:00
+title: Clair
+author: jmccann
+tags: [ docker, security ]
+repo: jmccann/drone-clair
+logo: clair.svg
+image: jmccann/drone-clair
+---
 
-The Clair plugin scans your docker image for security vulnerabilities. The below pipeline configuration demonstrates simple usage:
+The Clair plugin submits your docker image to your [Clair](https://github.com/coreos/clair)
+server to scan your docker image for security vulnerabilities.
+
+The below pipeline configuration demonstrates simple usage:
 
 ```yaml
 pipeline:
